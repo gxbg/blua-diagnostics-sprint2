@@ -36,7 +36,7 @@ load_dotenv()
 
 # ─── Configuração do modelo ───────────────────────────────────
 
-MODEL_NAME = "gemini-2.5-flash-lite"  # free tier generoso (15 RPM, 1000/dia)
+MODEL_NAME = "gemini-2.5-flash"
 
 
 def _get_llm(temperature: float = 0.3) -> ChatGoogleGenerativeAI:
