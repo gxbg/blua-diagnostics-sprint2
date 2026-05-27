@@ -1,0 +1,100 @@
+{
+  "tools": [
+    {
+      "name": "consultar_historico_paciente",
+      "description": "Consulta o histórico clínico do beneficiário na Care Plus. Retorna condições crônicas, medicamentos em uso, alergias, últimas consultas e exames recentes. Use no início do check-up para contextualizar a avaliação. Aplica princípio de minimização LGPD: retorna apenas os campos solicitados.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "beneficiario_id": {
+            "type": "string",
+            "description": "ID único do beneficiário no Blua (ex: BEN-MARIA, BEN-DEMO)"
+          },
+          "campos_solicitados": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "condicoes_cronicas",
+                "medicamentos_atuais",
+                "alergias",
+                "ultima_consulta",
+                "exames_recentes"
+              ]
+            },
+            "description": "Campos do prontuário a retornar. Solicite apenas o necessário."
+          }
+        },
+        "required": ["beneficiario_id", "campos_solicitados"]
+      }
+    },
+    {
+      "name": "verificar_interacoes_medicamentosas",
+      "description": "Verifica interações entre medicamentos. Resultado é INFORMATIVO — decisão clínica final é sempre do médico. Útil quando o paciente menciona usar múltiplos medicamentos ou pretende iniciar um novo.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "medicamentos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "description": "Nome do medicamento (princípio ativo ou comercial)"
+                },
+                "dose": {
+                  "type": "string",
+                  "description": "Dose e frequência (ex: 50mg 1x/dia)"
+                }
+              },
+              "required": ["nome"]
+            },
+            "minItems": 2,
+            "description": "Lista de medicamentos a verificar (mínimo 2 para haver interação)"
+          }
+        },
+        "required": ["medicamentos"]
+      }
+    },
+    {
+      "name": "agendar_teleconsulta",
+      "description": "Agenda teleconsulta com médico disponível na rede Blua. NÃO usar em emergências — em red flags, orientar SAMU 192. Use após avaliação inicial quando houver indicação de avaliação médica.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "beneficiario_id": {
+            "type": "string",
+            "description": "ID do beneficiário Blua"
+          },
+          "especialidade": {
+            "type": "string",
+            "enum": [
+              "clinica_geral",
+              "cardiologia",
+              "dermatologia",
+              "ginecologia",
+              "pediatria",
+              "psiquiatria",
+              "ortopedia",
+              "endocrinologia"
+            ],
+            "description": "Especialidade do médico a agendar"
+          },
+          "urgencia": {
+            "type": "string",
+            "enum": ["rotina", "preferencial", "urgente"],
+            "default": "rotina",
+            "description": "Nível de urgência da consulta. Rotina: até 7 dias. Preferencial: até 48h. Urgente: mesmo dia."
+          },
+          "motivo_consulta": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Resumo do motivo da consulta para o médico"
+          }
+        },
+        "required": ["beneficiario_id", "especialidade", "motivo_consulta"]
+      }
+    }
+  ]
+}
