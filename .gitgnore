@@ -1,0 +1,30 @@
+# Variáveis de ambiente — NUNCA commitar
+.env
+.env.local
+
+# Vector store local
+data/chroma_db/
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ambiente virtual
+venv/
+.venv/
+
+# Streamlit
+.streamlit/
+
+# IDEs
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
