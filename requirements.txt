@@ -1,0 +1,26 @@
+# BluaDiagnostics - Sprint 2
+
+# Core LLM (Google Gemini)
+google-generativeai>=0.8.0
+langchain-google-genai>=2.0.0
+
+# LangChain + LangGraph
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-text-splitters>=0.3.0
+langgraph>=0.2.0
+
+# RAG
+chromadb>=0.5.0
+langchain-chroma>=0.1.0
+
+# Interface
+streamlit>=1.30.0
+
+# Utilitarios
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# Notebooks e analise
+jupyter>=1.0.0
+pandas>=2.0.0
